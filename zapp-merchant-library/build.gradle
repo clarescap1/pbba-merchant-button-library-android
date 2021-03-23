@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'jacoco'
+apply plugin: 'org.sonarqube'
 
 ext {
     PUBLISH_GROUP_ID = 'com.zapp.library'
@@ -29,6 +30,14 @@ android {
         }
         release {
             minifyEnabled false
+        }
+    }
+
+    sonarqube {
+        properties {
+            property "sonar.projectKey", "Mastercard_pbba-merchant-button-library-android"
+            property "sonar.organization", "mastercard"
+            property "sonar.host.url", "https://sonarcloud.io"
         }
     }
 }
