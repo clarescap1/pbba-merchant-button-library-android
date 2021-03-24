@@ -49,7 +49,7 @@ public class PBBABankLogoService {
 
     /**
      * Get new rest client instance
-     *
+     * @param context The view context.
      * @return The {@link IPBBABankLogoService} REST client instance
      */
     @SuppressWarnings("SynchronizedMethod")
