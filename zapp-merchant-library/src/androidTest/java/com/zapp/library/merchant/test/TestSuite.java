@@ -108,4 +108,10 @@ public class TestSuite {
      * Constant error message value.
      */
     public static final String ERROR_MESSAGE = "Generic error message with a longer text";
+
+    /**
+     * Constant BRN code value.
+     */
+    @SuppressWarnings("ConstantNamingConvention")
+    public static final long TIMEOUT_TS = 250000;
 }

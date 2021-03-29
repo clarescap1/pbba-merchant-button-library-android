@@ -30,7 +30,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.zapp.library.merchant.BuildConfig;
 import com.zapp.library.merchant.ui.PBBAPopupCallback;
 import com.zapp.library.merchant.ui.fragment.PBBAPopup;
 import com.zapp.library.merchant.ui.fragment.PBBAPopupAboutFragment;
@@ -102,9 +101,7 @@ public final class PBBAAppUtils {
             throw new IllegalArgumentException("secureToken is required");
         }
         final String zappScheme = PBBALibraryUtils.getZappScheme(context);
-        if (BuildConfig.DEBUG) {
-            Log.d(PBBAAppUtils.class.getSimpleName(), "zappScheme is " + zappScheme);
-        }
+
         final Uri zappUri = Uri.parse(String.format(ZAPP_URI_FORMAT_STRING, zappScheme, secureToken));
         final Intent bankingAppStartIntent = new Intent(Intent.ACTION_VIEW, zappUri);
         @SuppressWarnings("BooleanVariableAlwaysNegated") final boolean isActivityContext = context instanceof Activity;

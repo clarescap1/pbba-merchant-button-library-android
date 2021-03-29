@@ -76,6 +76,16 @@ public class ShowPBBAPopupTest {
         public void onDismissPopup() {
             mOnDismissPopupCalled = true;
         }
+
+        @Override
+        public void onStartTimer() {
+
+        }
+
+        @Override
+        public void onEndTimer() {
+
+        }
     };
 
     @SuppressWarnings("PublicField")
@@ -90,37 +100,37 @@ public class ShowPBBAPopupTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testShowPBBAPopupNulls() throws Exception {
-        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ null, /* secureToken */ null, /* brn */ null, /* mCallback */ null);
+        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ null, /* secureToken */ null, /* brn */ null, /* mCallback */ null,TestSuite.TIMEOUT_TS);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testShowPBBAPopupNoSecureToken() throws Exception {
         final TestActivity activity = mActivityTestRule.getActivity();
-        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, /* secureToken */ null, TestSuite.BRN, /* mCallback */ null);
+        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, /* secureToken */ null, TestSuite.BRN, /* mCallback */ null,TestSuite.TIMEOUT_TS);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testShowPBBAPopupNoBRN() throws Exception {
         final TestActivity activity = mActivityTestRule.getActivity();
-        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, /* brn */ null, /* mCallback */ null);
+        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, /* brn */ null, /* mCallback */ null,TestSuite.TIMEOUT_TS);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testShowPBBAPopupInvalidBRN() throws Exception {
         final TestActivity activity = mActivityTestRule.getActivity();
-        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.INVALID_BRN, /* mCallback */ null);
+        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.INVALID_BRN, /* mCallback */ null,TestSuite.TIMEOUT_TS);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testShowPBBAPopupNoCallback() throws Exception {
         final TestActivity activity = mActivityTestRule.getActivity();
-        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, /* mCallback */ null);
+        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, /* mCallback */ null,TestSuite.TIMEOUT_TS);
     }
 
     @Test
     public void testShowPBBAPopupOK() throws Exception {
         final TestActivity activity = mActivityTestRule.getActivity();
-        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback);
+        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback,TestSuite.TIMEOUT_TS);
         Assert.assertFalse(TestSuite.ON_RETRY_PAYMENT_REQUEST_SHOULD_NOT_BE_CALLED, mOnRetryPaymentRequestCalled);
         Assert.assertFalse(TestSuite.ON_DISMISS_POPUP_CALLED_SHOULD_NOT_BE_CALLED, mOnDismissPopupCalled);
         Espresso.onView(ViewMatchers.withId(R.id.pbba_popup_close)).perform(ViewActions.click());
@@ -138,7 +148,7 @@ public class ShowPBBAPopupTest {
 
         PBBALibraryUtils.setOpenBankingAppButtonClicked(activity, Boolean.TRUE);
 
-        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback);
+        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback,TestSuite.TIMEOUT_TS);
 
         Intents.release();
     }
@@ -146,7 +156,7 @@ public class ShowPBBAPopupTest {
     @Test
     public void testShowPBBAPopupAndRotateOK() throws Exception {
         final TestActivity activity = mActivityTestRule.getActivity();
-        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback);
+        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback,TestSuite.TIMEOUT_TS);
         Assert.assertFalse(TestSuite.ON_RETRY_PAYMENT_REQUEST_SHOULD_NOT_BE_CALLED, mOnRetryPaymentRequestCalled);
         Assert.assertFalse(TestSuite.ON_DISMISS_POPUP_CALLED_SHOULD_NOT_BE_CALLED, mOnDismissPopupCalled);
 
@@ -166,7 +176,7 @@ public class ShowPBBAPopupTest {
     public void testShowPBBAPopupAndRotateWithReconnectOK() throws Exception {
 
         TestActivity activity = mActivityTestRule.getActivity();
-        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback);
+        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback,TestSuite.TIMEOUT_TS);
         Assert.assertFalse(TestSuite.ON_RETRY_PAYMENT_REQUEST_SHOULD_NOT_BE_CALLED, mOnRetryPaymentRequestCalled);
         Assert.assertFalse(TestSuite.ON_DISMISS_POPUP_CALLED_SHOULD_NOT_BE_CALLED, mOnDismissPopupCalled);
 
@@ -186,14 +196,14 @@ public class ShowPBBAPopupTest {
     public void testShowPBBAPopupTwiceSameBRN() throws Exception {
 
         final TestActivity activity = mActivityTestRule.getActivity();
-        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback);
+        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback,TestSuite.TIMEOUT_TS);
 
         // Called to make sure we have the dialog fragment popped up before we continue to the next step, hence performing a click on a non-clickable logo-test-view
         Espresso.onView(ViewMatchers.withId(R.id.pbba_popup_pay_by_bank_app_logo_text)).perform(ViewActions.click());
         Assert.assertFalse(TestSuite.ON_RETRY_PAYMENT_REQUEST_SHOULD_NOT_BE_CALLED, mOnRetryPaymentRequestCalled);
         Assert.assertFalse(TestSuite.ON_DISMISS_POPUP_CALLED_SHOULD_NOT_BE_CALLED, mOnDismissPopupCalled);
 
-        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback);
+        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback,TestSuite.TIMEOUT_TS);
         Espresso.onView(ViewMatchers.withId(R.id.pbba_popup_close)).perform(ViewActions.click());
         Assert.assertFalse(TestSuite.ON_RETRY_PAYMENT_REQUEST_SHOULD_NOT_BE_CALLED, mOnRetryPaymentRequestCalled);
         Assert.assertTrue(TestSuite.ON_DISMISS_POPUP_CALLED_SHOULD_BE_CALLED, mOnDismissPopupCalled);
@@ -203,14 +213,14 @@ public class ShowPBBAPopupTest {
     public void testShowPBBAPopupTwiceDifferentBRN() throws Exception {
 
         final TestActivity activity = mActivityTestRule.getActivity();
-        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback);
+        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback,TestSuite.TIMEOUT_TS);
 
         // Called to make sure we have the dialog fragment popped up before we continue to the next step, hence performing a click on a non-clickable logo-test-view
         Espresso.onView(ViewMatchers.withId(R.id.pbba_popup_pay_by_bank_app_logo_text)).perform(ViewActions.click());
         Assert.assertFalse(TestSuite.ON_RETRY_PAYMENT_REQUEST_SHOULD_NOT_BE_CALLED, mOnRetryPaymentRequestCalled);
         Assert.assertFalse(TestSuite.ON_DISMISS_POPUP_CALLED_SHOULD_NOT_BE_CALLED, mOnDismissPopupCalled);
 
-        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN2, mCallback);
+        PBBAAppUtils.showPBBAPopup(/* fragmentActivity */ activity, TestSuite.SECURE_TOKEN, TestSuite.BRN2, mCallback,TestSuite.TIMEOUT_TS);
         Espresso.onView(ViewMatchers.withId(R.id.pbba_popup_close)).perform(ViewActions.click());
         Assert.assertFalse(TestSuite.ON_RETRY_PAYMENT_REQUEST_SHOULD_NOT_BE_CALLED, mOnRetryPaymentRequestCalled);
         Assert.assertTrue(TestSuite.ON_DISMISS_POPUP_CALLED_SHOULD_BE_CALLED, mOnDismissPopupCalled);
