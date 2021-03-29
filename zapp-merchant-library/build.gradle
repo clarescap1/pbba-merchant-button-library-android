@@ -43,6 +43,11 @@ android {
             property "sonar.projectKey", "Mastercard_pbba-merchant-button-library-android"
             property "sonar.organization", "mastercard"
             property "sonar.host.url", "https://sonarcloud.io"
+            property "sonar.language", "java"
+            property "sonar.sources", "src"
+            property "sonar.binaries", "build"
+            property "sonar.exclusions", "**/src/androidTest/**/*"
+            property "sonar.sourceEncoding", "UTF-8"
         }
     }
 }

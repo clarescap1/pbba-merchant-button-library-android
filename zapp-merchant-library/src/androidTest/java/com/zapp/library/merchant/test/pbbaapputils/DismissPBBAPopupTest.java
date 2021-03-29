@@ -69,6 +69,16 @@ public class DismissPBBAPopupTest {
         public void onDismissPopup() {
             mOnDismissPopupCalled = true;
         }
+
+        @Override
+        public void onStartTimer() {
+
+        }
+
+        @Override
+        public void onEndTimer() {
+
+        }
     };
 
     @SuppressWarnings("PublicField")
@@ -98,7 +108,7 @@ public class DismissPBBAPopupTest {
     @Test
     public void testDismissPBBAPopupPopupDisplayedOK() throws Exception {
         final TestActivity activity = mActivityTestRule.getActivity();
-        PBBAAppUtils.showPBBAPopup(activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback);
+        PBBAAppUtils.showPBBAPopup(activity, TestSuite.SECURE_TOKEN, TestSuite.BRN, mCallback,TestSuite.TIMEOUT_TS);
         //wait until popup appears
         Espresso.onView(ViewMatchers.withId(R.id.pbba_popup_container)).perform(ViewActions.click());
         Assert.assertFalse(mOnRetryPaymentRequestCalled);

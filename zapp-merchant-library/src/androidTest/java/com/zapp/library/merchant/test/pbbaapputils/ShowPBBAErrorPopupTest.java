@@ -72,6 +72,16 @@ public class ShowPBBAErrorPopupTest {
         public void onDismissPopup() {
             mOnDismissPopupCalled = true;
         }
+
+        @Override
+        public void onStartTimer() {
+
+        }
+
+        @Override
+        public void onEndTimer() {
+
+        }
     };
 
     @SuppressWarnings("PublicField")
@@ -125,7 +135,7 @@ public class ShowPBBAErrorPopupTest {
         PBBAAppUtils.showPBBAErrorPopup(/* fragmentActivity */ activity, TestSuite.ERROR_CODE, TestSuite.ERROR_TITLE, TestSuite.ERROR_MESSAGE, mCallback);
         Assert.assertFalse(TestSuite.ON_RETRY_PAYMENT_REQUEST_SHOULD_NOT_BE_CALLED, mOnRetryPaymentRequestCalled);
         Assert.assertFalse(TestSuite.ON_DISMISS_POPUP_CALLED_SHOULD_NOT_BE_CALLED, mOnDismissPopupCalled);
-        Espresso.onView(ViewMatchers.withId(R.id.pbba_button)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.pbba_popup_error_button)).perform(ViewActions.click());
         Assert.assertTrue(TestSuite.ON_RETRY_PAYMENT_REQUEST_SHOULD_BE_CALLED, mOnRetryPaymentRequestCalled);
         Assert.assertFalse(TestSuite.ON_DISMISS_POPUP_CALLED_SHOULD_NOT_BE_CALLED, mOnDismissPopupCalled);
     }
